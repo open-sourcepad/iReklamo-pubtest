@@ -1,0 +1,38 @@
+#search-container
+  .row
+    .col-sm-12
+      i.fa.fa-refresh.fa-spin.fa-5x.mb-20(ng-show='busy')
+
+  .row(ng-show="!busy")
+    .col-sm-offset-3.col-sm-9
+      form.mb-20(role='form', name='form', ng-submit="search($event, form)", novalidate)
+        .input-group
+          input.form-control(type="text", id="search", ng-model='searchTerm')
+          span.input-group-btn
+            button.btn.btn-primary(type='submit') Search
+
+  .row
+    .col-sm-3
+      #search-results(ng-switch="true")
+        div(ng-if="complaints.length == 0")
+          p
+            strong We can't seem to ﬁnd any matching complaints nearby.
+          p That doesn't mean there's no problem here, it could be due to non posting of iReklamos or we just don't have recent data for this area.
+          p Try searching in a different area.
+
+        ul(ng-if="complaints.length > 0")
+          li(ng-repeat="qd in complaints", ng-click="navigateToPin(qd)")
+            .row
+              .col-sm-12
+                .complaint-title
+                  strong {{ qd.title }}
+            .row
+              .col-sm-8
+                span.label.label-info {{ qd. category }}
+              .col-sm-4.pl-0
+                .pull-right
+                  i.fa.fa-thumbs-o-up
+                  | &nbsp; {{ qd.likes }}
+
+    .col-sm-9
+      #map
